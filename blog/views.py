@@ -58,7 +58,7 @@ def post_detail(request, slug):
         ).select_related('author'),
         slug=slug)
 
-    comments = Comment.objects.filter(post=post).select_related('author')
+    comments = post.comments.select_related('author')
     serialized_comments = []
     for comment in comments:
         serialized_comments.append({
@@ -108,7 +108,7 @@ def tag_filter(request, tag_title):
         'author'
         ).prefetch_tags()[:5].fetch_with_comments_count()
 
-    related_posts = Post.objects.filter(tags=tag).select_related(
+    related_posts = tag.posts.select_related(
         'author').prefetch_tags().fetch_with_comments_count()
 
     context = {
