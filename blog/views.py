@@ -30,14 +30,15 @@ def serialize_tag(tag):
 def index(request):
 
     most_popular_posts = Post.objects.popular(
-        ).select_related(
-        'author').prefetch_tags().fetch_with_comments_count()
+        ).select_related('author'
+        ).prefetch_tags(
+        ).fetch_with_comments_count()
 
     most_fresh_posts = Post.objects.annotate(
-    comments_count=Count('comments')
-    ).select_related(
-    'author').prefetch_tags().order_by(
-    '-published_at')[:5]
+        comments_count=Count('comments')
+        ).select_related('author'
+        ).prefetch_tags(
+        ).order_by('-published_at')[:5]
 
     most_popular_tags = Tag.objects.popular()[:5]
 
@@ -54,9 +55,10 @@ def index(request):
 def post_detail(request, slug):
     post = get_object_or_404(
         Post.objects.annotate(
-        likes_count=Count('likes')
-        ).select_related('author'),
-        slug=slug)
+            likes_count=Count('likes')
+            ).select_related('author'),
+        slug=slug
+    )
 
     comments = post.comments.select_related('author')
     serialized_comments = []
@@ -84,9 +86,9 @@ def post_detail(request, slug):
     most_popular_tags = Tag.objects.popular()[:5]
 
     most_popular_posts = Post.objects.popular(
-        ).select_related(
-        'author'
-        ).prefetch_tags().fetch_with_comments_count()
+        ).select_related('author'
+        ).prefetch_tags(
+        ).fetch_with_comments_count()
 
     context = {
         'post': serialized_post,
@@ -104,12 +106,13 @@ def tag_filter(request, tag_title):
     most_popular_tags = Tag.objects.popular()[:5]
 
     most_popular_posts = Post.objects.popular(
-        ).select_related(
-        'author'
-        ).prefetch_tags()[:5].fetch_with_comments_count()
+        ).select_related('author'
+        ).prefetch_tags(
+        )[:5].fetch_with_comments_count()
 
     related_posts = tag.posts.select_related(
-        'author').prefetch_tags().fetch_with_comments_count()
+        'author').prefetch_tags(
+        ).fetch_with_comments_count()
 
     context = {
         'tag': tag.title,
