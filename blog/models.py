@@ -14,7 +14,9 @@ class PostQuerySet(models.QuerySet):
         return self.annotate(likes_count=Count('likes', distinct=True)).order_by('-likes_count')[:5]
     
     def fetch_with_comments_count(self):
-        return self.annotate(comments_count=Count('comments', distinct=True))
+        return list(
+            self.annotate(comments_count=Count('comments', distinct=True))
+        )
 
     def prefetch_tags(self):
         return self.prefetch_related(Prefetch('tags', queryset=Tag.objects.popular())
