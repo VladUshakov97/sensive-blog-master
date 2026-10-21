@@ -5,17 +5,6 @@ from django.db.models import Count, Prefetch
 
 prefetch_tags = Prefetch('tags', queryset=Tag.objects.popular())
 
-
-def get_likes_count(post):
-    return post.likes_count
-
-def get_related_posts_count(tag):
-    return tag.posts_count
-
-def get_comments_count(post):
-    return post.comments_count
-
-
 def serialize_post(post):
     tags = list(post.tags.all())
 
