@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 def serialize_post(post):
     tags = list(post.tags.all())
 
+
     return {
         'title': post.title,
         'teaser_text': post.text[:200],
