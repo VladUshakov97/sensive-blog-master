@@ -1,4 +1,4 @@
-pipDjango==5.2.*
+Django==5.2.*
 environs[django]==14.2.*
 Pillow==11.2.* 
-django-debug-toolbar
+django-debug-toolbar==8.0.0
